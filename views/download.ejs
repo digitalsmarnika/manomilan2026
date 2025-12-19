@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Download PDF Tipan</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 480px;
+    margin: 80px auto;
+    background: #ffffff;
+    padding: 32px 36px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #444;
+}
+
+input {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.or-divider {
+    text-align: center;
+    margin: 22px 0;
+    font-weight: bold;
+    color: #666;
+    position: relative;
+}
+
+.or-divider::before,
+.or-divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: #ccc;
+}
+
+.or-divider::before { left: 0; }
+.or-divider::after { right: 0; }
+
+button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 13px;
+    font-size: 15px;
+    font-weight: bold;
+    background: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+.alert {
+    display: none;
+    margin-top: 18px;
+    padding: 12px;
+    border-radius: 4px;
+    background: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+    text-align: center;
+}
+
+/* Spinner */
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.85);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 6px solid #ddd;
+    border-top-color: #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.note {
+    font-size: 13px;
+    color: #666;
+    margin-top: 14px;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay" id="overlay">
+    <div class="spinner"></div>
+</div>
+
+<div class="container">
+    <h2>Download Your PDF Tipan</h2>
+
+    <form id="pdfForm">
+
+        <div class="form-group">
+            <label>Anubandh ID</label>
+            <input type="text" id="anubandhId" placeholder="Enter Anubandh ID">
+        </div>
+
+        <div class="or-divider">OR</div>
+
+        <div class="form-group">
+            <label>No.</label>
+            <input type="text" id="no" placeholder="Enter Record No.">
+        </div>
+
+        <button type="submit" id="downloadBtn">Download PDF</button>
+    </form>
+
+    <div class="alert" id="alertBox"></div>
+
+    <div class="note">
+        Enter <b>Anubandh ID</b> or <b>No.</b> to download your PDF
+    </div>
+</div>
+
+<script>
+const form = document.getElementById("pdfForm");
+const alertBox = document.getElementById("alertBox");
+const overlay = document.getElementById("overlay");
+const btn = document.getElementById("downloadBtn");
+const anubandhInput = document.getElementById("anubandhId");
+const noInput = document.getElementById("no");
+
+/* Disable other field when typing */
+anubandhInput.addEventListener("input", () => {
+    noInput.disabled = !!anubandhInput.value.trim();
+});
+
+noInput.addEventListener("input", () => {
+    anubandhInput.disabled = !!noInput.value.trim();
+});
+
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    alertBox.style.display = "none";
+
+    const anubandhId = anubandhInput.value.trim();
+    const no = noInput.value.trim();
+
+    if (!anubandhId && !no) {
+        alertBox.innerText = "Please enter Anubandh ID or No.";
+        alertBox.style.display = "block";
+        return;
+    }
+
+    btn.disabled = true;
+    overlay.style.display = "flex";
+
+    const params = new URLSearchParams();
+    if (anubandhId) params.append("anubandhId", anubandhId);
+    if (no) params.append("no", no);
+
+    try {
+        const response = await fetch(`/download?${params.toString()}`);
+
+        if (!response.ok) {
+            const text = await response.text();
+            throw new Error(text || "Record not found");
+        }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "ManoMilan.pdf";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        URL.revokeObjectURL(url);
+
+    } catch (err) {
+        alertBox.innerText = err.message || "Unable to download PDF.";
+        alertBox.style.display = "block";
+    } finally {
+        overlay.style.display = "none";
+        btn.disabled = false;
+    }
+});
+</script>
+
+</body>
+</html>

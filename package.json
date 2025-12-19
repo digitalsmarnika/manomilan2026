@@ -1,0 +1,32 @@
+{
+  "name": "pdf_genrator",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.1",
+    "ejs": "^3.1.10",
+    "exceljs": "^4.4.0",
+    "express": "^5.2.1",
+    "pdfkit": "^0.17.2",
+    "puppeteer": "^24.33.0"
+  },
+  "build": {
+     "files": [
+    "excelReader.js",
+    "package.json"
+  ],
+  "appId": "com.mycompany.exceldesktopapp",
+  "win": {
+    "target": "nsis",
+    "icon": "icon.ico"
+  }
+}
+}

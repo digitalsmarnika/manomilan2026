@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>ManoMilan PDF</title>
+
+<style>
+  @font-face {
+    font-family: 'Dev';
+    src: url('../fonts/NotoSerifDevanagari-Regular.ttf');
+  }
+
+  body {
+    font-family: 'Dev';
+    font-size: 10.5px;
+    margin: 20px;
+    color: #000;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    position: relative;
+     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='rgba(120,120,120,0.22)' font-size='42' font-weight='700' transform='rotate(-30 300 200)'%3EVasavi Infotech %26 Groups%3C/text%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-position: center;
+  }
+
+  /* ===== CENTERED HALF-WIDTH PAGE ===== */
+  .page {
+    width: 50%;                 /* 👈 half screen */
+    margin: 0 auto;             /* 👈 centered */
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  td {
+    border: 1.1px solid #b3c1ff;
+    padding: 6px 8px;
+    vertical-align: middle;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: #d0dbff;
+    font-size: 13.5px;
+    text-align: center;
+    line-height: 1.45;
+    padding: 10px 8px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+
+  /* ===== LEFT COLUMN ===== */
+  .label {
+    width: 35%;                 /* adjusted for narrow width */
+    background: #eef2ff;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* ===== RIGHT COLUMN ===== */
+  .value {
+    width: 65%;
+    font-weight: 500;
+    word-wrap: break-word;
+  }
+
+  /* ===== WATERMARK ===== */
+ /* ===== WATERMARK (FIXED & VISIBLE) ===== */
+.watermark {
+  position: fixed;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-25deg);
+  font-size: 52px;                    /* bigger */
+  font-weight: 700;
+  color: rgba(120, 120, 120, 0.22);   /* darker but professional */
+  z-index: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  letter-spacing: 1px;
+}
+
+  /* Ensure content stays above watermark */
+  .page, table, td {
+    position: relative;
+    z-index: 1;
+  }
+</style>
+
+
+
+
+
+</head>
+
+<body>
+
+<div class="page">
+ <table>
+  <tr>
+    <td colspan="2" class="header">
+      मनोमिलन २०२६,<br>
+      आर्य वैश्य उपवधू-उपवर परिचय मेळावा २४ व २५ जानेवारी, चंद्रपूर
+    </td>
+  </tr>
+
+  <tr><td class="label">Anubandh ID No.</td><td class="value">{{ANUBANDH_ID}}</td></tr>
+  <tr><td class="label">Gender</td><td class="value">{{GENDER}}</td></tr>
+  <tr><td class="label">Qualification</td><td class="value">{{QUALIFICATION}}</td></tr>
+  <tr><td class="label">Full Name</td><td class="value"><B>{{FULL_NAME}}</B></td></tr>
+  <tr><td class="label">Date Of Birth</td><td class="value">{{DOB}}</td></tr>
+  <tr><td class="label">Email</td><td class="value">{{EMAIL}}</td></tr>
+  <tr><td class="label">Education</td><td class="value">{{EDUCATION}}</td></tr>
+  <tr><td class="label">Occupation</td><td class="value">{{OCCUPATION}}</td></tr>
+  <tr><td class="label">Annual Income</td><td class="value">{{INCOME}}</td></tr>
+  <tr><td class="label">First Gotra</td><td class="value">{{GOTRA1}}</td></tr>
+  <tr><td class="label">Second Gotra</td><td class="value">{{GOTRA2}}</td></tr>
+  <tr><td class="label">Height</td><td class="value">{{HEIGHT}}</td></tr>
+  <tr><td class="label">Permanent Address</td><td class="value">{{PERM_ADDRESS}}</td></tr>
+  <tr><td class="label">Current Address</td><td class="value">{{CURR_ADDRESS}}</td></tr>
+  <tr><td class="label">Mob no.</td><td class="value">{{MOBILE}}</td></tr>
+  <tr><td class="label">Contact Person Name</td><td class="value">{{CONTACT_NAME}}</td></tr>
+  <tr><td class="label">Contact Person Mob. NO.</td><td class="value">{{CONTACT_MOBILE}}</td></tr>
+  <tr><td class="label">Mama Name</td><td class="value">{{MAMA_NAME}}</td></tr>
+
+  <!-- <tr>
+    <td class="label">Uploaded your<br>Photo</td>
+    <td class="value">
+      <div class="photo-box">
+        <img src="{{PHOTO_URL}}" />
+      </div>
+    </td>
+  </tr> -->
+</table>
+</div>
+
+</body>
+</html>
