@@ -4,10 +4,14 @@ const path = require("path");
 const formatDateToPdf = require("./utils/date"); // adjust path if needed
 
 async function generateExactPdf(data, res) {
-  const browser = await puppeteer.launch({
-    headless: "new"
+ const browser = await puppeteer.launch({
+    headless: "new",
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage"
+    ]
   });
-
   const page = await browser.newPage();
 
   let html = fs.readFileSync(
